@@ -3,257 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cinewick | Descarga la App Oficial</title>
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    
+    <title>HLS Stream Tokenizer V1</title>
     <style>
-        :root {
-            /* Color verde/cian extraído de tu web principal */
-            --primary: #00e5b0; 
-            --dark: #000000;
-            --glass: rgba(15, 15, 15, 0.85);
-        }
-
-        body {
-            margin: 0;
-            font-family: 'Inter', sans-serif;
-            background-color: var(--dark);
-            color: white;
-            overflow-x: hidden;
-        }
-
-        /* NAVBAR - Corrección definitiva de visibilidad */
-        nav {
-            position: fixed;
-            top: 0; 
-            left: 0;
-            width: 100%; 
-            padding: 20px 0;
-            z-index: 99999; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, transparent 100%);
-        }
-
-        .nav-logo { 
-            margin-left: 5%;
-            font-size: 1.6rem; 
-            font-weight: 900; 
-            color: var(--primary); /* Logo ahora en verde */
-            text-decoration: none; 
-        }
-
-        .nav-link { 
-            margin-right: 8%; /* Margen de seguridad para evitar cortes */
-            color: #ffffff !important; 
-            text-decoration: none; 
-            font-size: 0.85rem; 
-            font-weight: 800; 
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            background: rgba(255, 255, 255, 0.15); 
-            padding: 10px 20px;
-            border-radius: 4px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            white-space: nowrap; /* Evita que el texto se rompa */
-            transition: 0.3s;
-        }
-
-        .nav-link:hover {
-            background: var(--primary);
-            border-color: var(--primary);
-            color: #000 !important;
-        }
-
-        /* HERO Y CARD */
-        .hero {
-            position: relative; height: 100vh;
-            display: flex; align-items: center; justify-content: center;
-        }
-        .hero-bg {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: url('https://assets.nflxext.com/ffe/siteui/vlv3/76c5a455-c62c-46d4-8653-3924728113e3/web/AR-es-20260504-TRIFECTA-perspective_1ac5b690-1221-478e-bb49-c2e0abc5c2a9_large.jpg');
-            background-size: cover; background-position: center;
-            filter: brightness(0.3) blur(5px); z-index: 1;
-        }
-        .main-card {
-            position: relative; z-index: 10;
-            background-color: var(--glass); backdrop-filter: blur(10px);
-            padding: 50px 40px; border-radius: 20px; text-align: center;
-            max-width: 480px; width: 90%;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.9); border: 1px solid rgba(255,255,255,0.1);
-        }
-        .btn-download {
-            background: var(--primary); 
-            color: #000; /* Texto oscuro para contraste */
-            padding: 18px; width: 100%;
-            border-radius: 12px; text-decoration: none; font-weight: bold;
-            display: flex; align-items: center; justify-content: center; gap: 12px;
-            transition: 0.3s; margin-bottom: 35px;
-        }
-        .btn-download:hover { transform: scale(1.02); box-shadow: 0 0 20px rgba(0, 229, 176, 0.4); }
-
-        .stats-row {
-            display: flex; justify-content: space-around;
-            border-top: 1px solid rgba(255,255,255,0.1); padding-top: 25px;
-        }
-
-        /* SECCIÓN TENDENCIAS */
-        .trending { padding: 80px 0; background: #000; position: relative; }
-        .trending h2 { text-align: center; margin-bottom: 50px; font-weight: 300; }
-        
-        .carousel-wrapper { position: relative; width: 100%; display: flex; align-items: center; }
-
-        .poster-container {
-            width: 100%; 
-            overflow-x: auto; 
-            padding: 20px 0 80px 10%;
-            scrollbar-width: none;
-            scroll-behavior: smooth;
-        }
-        .poster-container::-webkit-scrollbar { display: none; }
-
-        .poster-track { display: flex; gap: 75px; width: max-content; padding-right: 15%; }
-
-        .poster-link {
-            position: relative; width: 180px; height: 260px;
-            flex-shrink: 0; display: block; transition: 0.4s;
-        }
-        .poster-link img { width: 100%; height: 100%; object-fit: cover; border-radius: 6px; position: relative; z-index: 1; }
-        
-        .poster-link::before {
-            content: attr(data-rank);
-            position: absolute; bottom: -30px; left: -65px;
-            font-size: 200px; font-weight: 900; z-index: 5;
-            color: #000; -webkit-text-stroke: 2px #fff;
-            font-family: 'Arial Black', sans-serif; letter-spacing: -12px;
-            line-height: 1; pointer-events: none;
-        }
-
-        .nav-btn {
-            position: absolute; top: 40%; transform: translateY(-50%);
-            background: rgba(0,0,0,0.5); color: white; border: none;
-            width: 50px; height: 50px; border-radius: 50%; cursor: pointer;
-            z-index: 20; display: flex; align-items: center; justify-content: center;
-            font-size: 1.5rem; transition: 0.3s;
-        }
-        .nav-btn:hover { background: var(--primary); color: #000; }
-        .prev-btn { left: 2%; }
-        .next-btn { right: 2%; }
-
-        footer { padding: 40px; text-align: center; border-top: 1px solid #111; }
+        :root { --bg-color: #0d1117; --card-bg: #161b22; --accent-color: #38bdf8; --text-color: #c9d1d9; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: var(--bg-color); color: var(--text-color); margin: 0; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .container { background-color: var(--card-bg); padding: 30px; border-radius: 12px; width: 100%; max-width: 500px; box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
+        h1 { font-size: 1.5rem; color: #fff; margin-bottom: 20px; text-align: center; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-size: 0.9rem; }
+        textarea { width: 100%; height: 90px; background: #0d1117; border: 1px: solid #30363d; color: #fff; border-radius: 6px; padding: 10px; box-sizing: border-box; resize: none; font-size: 0.85rem; }
+        button { background-color: var(--accent-color); color: #0d1117; border: none; padding: 12px; width: 100%; border-radius: 6px; font-weight: bold; cursor: pointer; font-size: 1rem; transition: opacity 0.2s; }
+        button:hover { opacity: 0.9; }
+        .result-box { margin-top: 20px; background: #0d1117; border: 1px solid #30363d; padding: 15px; border-radius: 6px; display: none; word-break: break-all; font-size: 0.9rem; }
+        .result-box.active { display: block; }
+        .copy-btn { margin-top: 10px; background: transparent; border: 1px solid var(--accent-color); color: var(--accent-color); padding: 8px; }
     </style>
 </head>
 <body>
 
-    <nav>
-        <a href="#" class="nav-logo">CINEWICK</a>
-        <a href="https://cinewick-vip.blogspot.com/" class="nav-link">Web Oficial</a>
-    </nav>
-
-    <section class="hero">
-        <div class="hero-bg"></div>
-        <div class="main-card" data-aos="fade-up">
-            <h1>Películas y series sin límites.</h1>
-            <p style="color:#ccc; margin-bottom:35px;">La APK más completa con estrenos diarios en HD.</p>
-            
-            <a href="https://drive.google.com/uc?export=download&id=1qilgjNtGUvABOlV9wivYK2I8Vmiit7NH" class="btn-download">
-                <i class="fab fa-android"></i> DESCARGAR APK GRATIS
-            </a>
-
-            <div class="stats-row">
-                <div class="stat-box">
-                    <i class="fas fa-download" style="color:var(--primary)"></i>
-                    <span id="count">15,421+</span>
-                    <p>Descargas</p>
-                </div>
-
-                <a href="https://www.virustotal.com/gui/file/98af1ec699553b35e0340f752a022291458ab697d40bdf4e1b4d13e65fe7efc8/detection" 
-                   target="_blank" 
-                   class="stat-box" 
-                   style="text-decoration: none; cursor: pointer;">
-                    <i class="fas fa-shield-alt" style="color:var(--primary)"></i>
-                    <span style="color: white; font-weight: 800;">SEGURO</span>
-                    <p style="color: var(--primary); font-weight: bold;">VIRUSTOTAL OK</p>
-                </a>
-
-                <div class="stat-box">
-                    <i class="fas fa-star" style="color:#f1c40f"></i>
-                    <span>4.9 / 5</span>
-                    <p>Valoración</p>
-                </div>
-            </div>
+    <div class="container">
+        <h1>HLS Stream Tokenizer</h1>
+        
+        <div class="form-group">
+            <label for="urlInput">Pegá tu URL .m3u8 o stream original:</label>
+            <textarea id="urlInput" placeholder="https://ejemplo.com/stream/.../master.m3u8"></textarea>
         </div>
-    </section>
 
-    <section class="trending">
-        <h2>Contenido Recién Agregado</h2>
-        <div class="carousel-wrapper">
-            <button class="nav-btn prev-btn" onclick="scrollCarousel(-300)"><i class="fas fa-chevron-left"></i></button>
-            <div class="poster-container" id="carousel">
-                <div id="poster-track" class="poster-track"></div>
-            </div>
-            <button class="nav-btn next-btn" onclick="scrollCarousel(300)"><i class="fas fa-chevron-right"></i></button>
+        <button onclick="generarEnlaceHLS()">Generar Enlace Inteligente</button>
+
+        <div id="resultBox" class="result-box">
+            <div style="font-size: 0.8rem; color: #8b949e; margin-bottom: 5px;">Enlace Protegido / Proxy:</div>
+            <div id="resultUrl"></div>
+            <button class="copy-btn" onclick="copiarAlPortapapeles()">Copiar Enlace</button>
         </div>
-    </section>
+    </div>
 
-    <footer>
-        <p style="font-size:0.7rem; color:#444;">© 2026 Cinewick App</p>
-    </footer>
-
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init();
-        function scrollCarousel(distance) {
-            document.getElementById('carousel').scrollBy({ left: distance, behavior: 'smooth' });
+        function generarEnlaceHLS() {
+            const rawUrl = document.getElementById('urlInput').value.trim();
+            const resultBox = document.getElementById('resultBox');
+            const resultUrlDiv = document.getElementById('resultUrl');
+
+            if (!rawUrl) {
+                alert("Por favor, ingresa una URL .m3u8 válida.");
+                return;
+            }
+
+            // REEMPLAZA ESTA URL CON LA DE TU NUEVO WORKER DE CLOUDFLARE
+            const workerDomain = "https://TU-NUEVO-WORKER.workers.dev";
+            const enlaceInteligente = `${workerDomain}/?url=${encodeURIComponent(rawUrl)}`;
+
+            resultUrlDiv.innerText = enlaceInteligente;
+            resultBox.classList.add('active');
         }
 
-        const CONFIG = {
-            TMDB_KEY: '51800c8d9e13631a7ded6f17f363e7a5',
-            BLOG_URL: 'https://cinewick-vip.blogspot.com/feeds/posts/default?alt=json-in-script&callback=renderMovies&max-results=6'
-        };
-
-        window.renderMovies = async function(data) {
-            const track = document.getElementById('poster-track');
-            const entries = data.feed.entry;
-            if (!entries) return;
-            track.innerHTML = ''; 
-
-            for (let i = 0; i < entries.length; i++) {
-                const entry = entries[i];
-                let imgUrl = "";
-                const postLink = entry.link.find(l => l.rel === 'alternate').href;
-                const content = entry.content ? entry.content.$t : "";
-                const tmdbMatch = content.match(/(?:movie|tv)\/(\d+)/) || content.match(/id=(\d+)/);
-
-                if (tmdbMatch && tmdbMatch[1]) {
-                    try {
-                        const res = await fetch(`https://api.themoviedb.org/3/${content.includes('tv/') ? 'tv' : 'movie'}/${tmdbMatch[1]}?api_key=${CONFIG.TMDB_KEY}&language=es-ES`);
-                        const movie = await res.json();
-                        if(movie.poster_path) imgUrl = `https://image.tmdb.org/t/p/w500${movie.poster_path}`;
-                    } catch(e) {}
-                }
-                if (!imgUrl && entry.media$thumbnail) imgUrl = entry.media$thumbnail.url.replace('/s72-c/', '/w500/');
-
-                if (imgUrl) {
-                    const card = document.createElement('a');
-                    card.href = postLink;
-                    card.className = 'poster-link';
-                    card.setAttribute('data-rank', i + 1);
-                    card.innerHTML = `<img src="${imgUrl}" alt="Poster">`;
-                    track.appendChild(card);
-                }
-            }
-        };
-
-        (function() {
-            const script = document.createElement('script');
-            script.src = CONFIG.BLOG_URL;
-            document.body.appendChild(script);
-        })();
+        function copiarAlPortapapeles() {
+            const textToCopy = document.getElementById('resultUrl').innerText;
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                alert("¡Enlace copiado al portapapeles!");
+            });
+        }
     </script>
 </body>
 </html>
